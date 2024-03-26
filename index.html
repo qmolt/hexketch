@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		
+		<title>Hexketch</title>
+		
+		<link rel="icon" type="image/png" href="assets/icon.png"/>
+		<link rel="stylesheet" href="styles.css">
+
+		<!--script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.js"></script-->
+		<script src="libraries/p5.js"></script>
+		<script src="libraries/BHex.Core.js"></script>
+		<script src="libraries/BHex.Drawing.js"></script>
+		<script type="module" src="main.js" defer></script>
+	</head>
+	<body>
+		<div class="sketchbook">
+			<div class="myUI">
+				<h1>hexketch</h1>
+
+				<hr>
+
+				<h2>board</h2>
+				<div class="boardSettings">
+					<div class="label2Buttons">
+						<label>board size</label>
+						<input type="button" id="butReduceCanvas" value="-"></input>
+						<input type="button" id="butExpandCanvas" value="+"></input>
+					</div>
+					<div class="label2Buttons">
+						<label>zoom</label>
+						<input type="button" id="butZoomOut" value="-"></input>
+						<input type="button" id="butZoomIn" value="+"></input>
+					</div>
+					<div class="label4Buttons">
+						<label>move</label>
+						<input type="button" id="butMoveLeft" value="←"></input>
+						<input type="button" id="butMoveRight" value="→"></input>
+						<input type="button" id="butMoveUp" value="↑"></input>
+						<input type="button" id="butMoveDown" value="↓"></input>
+					</div>
+					<div class="labelSelect">
+						<label for="selOrientation">orientation</label>
+						<select id="selOrientation">
+							<option value="pointy">top pointy</option>
+							<option value="flat">top flat</option>
+						</select>
+					</div>
+					<div class="labelCheckbox">
+						<label for="switchGrid">grid</label>
+						<input type="checkbox" id="switchGrid" checked></input>
+					</div>
+				</div>
+
+				<hr>
+				<h2>function</h2>
+				<div class="functionButtons">
+					<div class="label5Buttons">
+						<label>element</label>
+						<input type="button" id="butSelTile" value="T ⬢"></input>
+						<input type="button" id="butSelOL" value="OL ⬡"></input>
+						<input type="button" id="butSelHL" value="HL ⚹"></input>
+						<input type="button" id="butSelArrow" value="A ↗"></input>
+						<input type="button" id="butSelComment" value="C ^"></input>
+					</div>
+					<div class="label5Buttons">
+						<label>action</label>
+						<input type="button" id="butDoAdd" value="add"></input>
+						<input type="button" id="butDoEdit" value="edit"></input>
+						<input type="button" id="butDoMove" value="move"></input>
+						<input type="button" id="butDoDelete" value="delete"></input>
+						<input type="button" id="butDoReset" value="reset"></input>
+					</div>
+				</div>
+
+				<div class="sectionTile" id="sectionTile">
+					<hr>
+					<h2>tile [T ⬢]</h2>
+					<div class="label11Buttons">
+						<label>figure</label>
+						<button class="tileFig">A</button>
+						<button class="tileFig">B</button>
+						<button class="tileFig">G</button>
+						<button class="tileFig">L</button>
+						<button class="tileFig">M</button>
+						<button class="tileFig">P</button>
+						<div></div>
+						<button class="tileFig">Q</button>
+						<button class="tileFig">S</button>
+						<button class="tileFig">?</button>
+						<button class="tileFig">!</button>
+						<button class="tileFig"> </button>
+					</div>
+					<div class="label2Buttons">
+						<label>tile color</label>
+						<button class="tileColor">black</button>
+						<button class="tileColor">white</button>
+					</div>
+				</div>
+				<div class="sectionOL" id="sectionOL">
+					<hr>
+					<h2>outline [OL ⬡]</h2>
+					<div>
+						<!--div> ¯\_(ツ)_/¯ </div-->
+					</div>
+				</div>
+				<div class="sectionHL" id="sectionHL">
+					<hr>
+					<h2>highlight [HL ⚹]</h2>
+					<div class="labelColor">
+						<label for="colorHL">color</label>
+						<input type="color" id="colorHL" value="#e03375"/></input>
+					</div>
+					<div class="labelSelect">
+						<label for="selHLOpacity">opacity</label>
+						<select id="selHLOpacity">
+							<option value="100">100%</option>
+							<option value="75" selected="selected">75%</option>
+							<option value="50">50%</option>
+							<option value="25">25%</option>
+						</select>		
+					</div>
+				</div>
+				<div class="sectionArrow" id="sectionArrow">
+					<hr>
+					<h2>arrow [A ↗]</h2>
+					<div class="labelColor">
+						<label for="colorArrow">color</label>
+						<input type="color" id="colorArrow" value="#e0d233"/></input>
+					</div>
+					<div class="labelSelect">
+						<label for="selArrowWeight">weight</label>
+						<select id="selArrowWeight">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3" selected="selected">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>		
+					</div>
+				</div>
+				<div class="sectionComment" id="sectionComment">
+					<hr>
+					<h2>comment [C ^]</h2>
+					<div class="labelText">
+						<label for="textComment">text</label>
+						<input type="text" id="textComment" autocomplete="off" placeholder="write here"></input>
+					</div>
+					<div class="labelColor">
+						<label for="colorComment">color</label>
+						<input type="color" id="colorComment" value="#ffffff"/></input>
+					</div>
+					<div class="labelSelect">
+						<label for="selFont">font</label>
+						<select id="selFont">
+							<option value="Helvetica" selected="selected">Helvetica</option>
+							<option value="Georgia">Georgia</option>
+							<option value="Times New Roman">Times New Roman</option>
+							<option value="Courier New">Courier New</option>
+						</select>		
+					</div>
+					<div class="labelSelect">
+						<label for="selSize">size</label>
+						<select id="selSize">
+							<option value="12" selected="selected">12</option>
+							<option value="16">16</option>
+							<option value="20">20</option>
+							<option value="24">24</option>
+							<option value="28">28</option>
+							<option value="36">36</option>
+							<option value="48">48</option>
+							<option value="60">60</option>
+							<option value="72">72</option>
+						</select>
+					</div>		
+				</div>	
+				
+				<hr>
+				<h2>colors</h2>
+				<div class="colorSettings">
+					<div class="labelColor">
+						<label for="colorBG">background</label>
+						<input type="color" id="colorBG" value="#000000"/></input>
+					</div>
+					<div class="labelSelect">
+						<label for="selTilePalette">tile palette</label>
+						<select id="selTilePalette">
+							<option value="0">default</option>
+							<option value="1">carbon</option>
+							<option value="3">bright</option>
+							<option value="4">vibrant</option>
+							<option value="5">muted</option>
+							<option value="6">light</option>
+							<option value="7">text</option>
+							<option value="8">pastel</option>
+							<option value="9">neon</option>
+							<option value="10">rainbow</option>
+							<option value="11">vintage</option>
+							<option value="12">opaque</option>
+							<option value="13">openmoji</option>
+							<option value="14">pixel64</option>
+							<option value="15">pixel32</option>
+						</select>		
+					</div>
+					<div class="labelSelect">
+						<label for="selOLColor">outline color</label>
+						<select id="selOLColor">
+							<option value="0">white</option>
+							<option value="1">grey</option>
+							<option value="2">black</option>
+							<option value="3">red</option>
+							<option value="4">orange</option>
+							<option value="5">yellow</option>
+							<option value="6">pear</option>
+							<option value="7">green</option>
+							<option value="8">teal</option>
+							<option value="9">cyan</option>
+							<option value="10">blue</option>
+							<option value="11">purple</option>
+							<option value="12">wine</option>
+							<option value="13">magenta</option>
+							<option value="14">orange32</option>
+							<option value="15">green32</option>
+						</select>
+					</div>
+				</div>
+
+				<hr>
+				<div class="saveSettings">
+					<h2>save</h2>
+					<div class="labelCheckbox">
+						<label for="saveBg">background</label>
+						<input type="checkbox" id="saveBg" checked></input>
+					</div>
+					<div class="just2Buttons">
+						<input type="button" id="takePhoto" value="save"></input>
+					</div>
+				</div>
+			</div>
+
+			<div class="infoAndCanvas">
+				<p id="actionInfo">select an element. // select an action.</p>
+				<p id="warningInfo"></p>
+				<div class="p5drawing" id="myHexketchbook"></div>
+			</div>
+		</div>	
+	</body>
+</html>

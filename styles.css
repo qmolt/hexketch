@@ -1,0 +1,153 @@
+* {
+	font-family: system-ui;
+	color: #c6c6c6;	
+}
+
+body {
+	margin: 0px;
+	background-color: #2b2b2b;
+}
+
+.sketchbook {
+	display: grid;
+	grid-template-columns: 350px auto;
+}
+
+.justButton{
+	display: grid;
+	grid-template-columns: 330px;
+	grid-template-rows: 22px;
+	padding: 0px 10px;
+}
+.just2Buttons{
+	display: grid;
+	grid-template-columns: 210px;
+	grid-template-rows: 22px;
+	padding: 1px 5px;
+}
+.labelButton{
+	display: grid;
+	grid-template-columns: 90px 240px;
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+.label2Buttons {
+	display: grid;
+	grid-template-columns: 90px repeat(2, 120px);
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+.label4Buttons {
+	display: grid;
+	grid-template-columns: 90px repeat(4, 60px);
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+.label5Buttons {
+	display: grid;
+	grid-template-columns: 90px repeat(5, 48px);
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+.label11Buttons {
+	display: grid;
+	grid-template-columns: 90px repeat(6, 40px);
+	grid-template-rows: repeat(2, 22px);
+	padding: 1px 10px;
+}
+.labelCheckbox {
+	display: grid;
+	grid-template-columns: 90px 120px;
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+.labelColor {
+	display: grid;
+	grid-template-columns: 90px 120px;
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+.labelSelect {
+	display: grid;
+	grid-template-columns: 90px 120px;
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+.labelText {
+	display: grid;
+	grid-template-columns: 90px 240px;
+	grid-template-rows: 22px;
+	padding: 1px 10px;
+}
+
+.infoAndCanvas {
+	margin: 2px;
+	padding: 0px;
+}
+
+.sectionTile {display: none;}
+.sectionOL {display: none;}
+.sectionHL {display: none;}
+.sectionArrow {display: none;}
+.sectionComment {display: none;}
+
+input {
+	cursor: pointer;
+	margin: 2px;
+	padding: 0.1em 0.1em;;
+	font-size: 0.75em;
+	border: none;
+	border-radius: 5px;
+	background-color: #141414;
+}
+select {
+	margin: 2px;
+	padding: 0em 0em;;
+	font-size: 0.75em;
+	border: none;
+	border-radius: 5px;
+	background-color: #141414;
+}
+button {
+	cursor: pointer;
+	margin: 2px;
+	padding: 0.1em 0.1em;;
+	font-size: 0.75em;
+	border: none;
+	border-radius: 5px;
+	background-color: #141414;
+}
+
+button:active {
+	background-color: #444444;
+}
+input:active[type="button"] {
+	background-color: #444444;
+}
+
+input[type="radio"] {
+	padding: none;
+	margin: none;
+}
+
+input[type="color"] {
+	margin: 0px; 
+	width: 125px;
+	background-color: transparent;
+}
+
+h1 {
+	margin: 0px;
+	padding: 10px 10px;
+	font-size: 1.5em;
+}
+h2 {
+	margin: 0px;
+	padding: 0px 10px;
+	font-size: 1.2em;
+}
+p {
+	margin: 2px;
+	padding: 0px 0px;
+	font-size: 1em;
+}

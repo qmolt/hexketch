@@ -1,0 +1,88 @@
+sketchProp = {
+	canvasSize: 600,
+	hexSize: 50,
+	hexOrient: 'pointy',
+	gridDots: [],
+	bgColor: "#000000",
+	gridVsbl: 1,
+	saveFrame: false,
+	saveBg: true,
+	userOffsetX: 0,
+	userOffsetY: 0,
+	selElement: 'none',
+	selAction: 'none',
+	tilePalette: '0',
+	oLColor: '0'
+};
+
+sketchInfo = {
+	selElement: //tile, ol, hl, arrow, comment, none
+	selAction: //add, edit, move, delete, none
+	paletteCBSafe: //true, false
+};
+tempProp = {
+	tileFig: //blank, ant, beetle, grasshopper, ladybug, mosquito, pillbug, queen bee, spider, qm, em
+	tileColor: //w, b
+	hLColor: '#000000'...
+	hLOpacity: '100'...
+	arrowColor: '#000000'...
+	arrowWeight: '1'...
+	commentText: ''...
+	commentColor: '#000000'...
+	commentFont: ''...
+	commentSize: 12...
+};
+function palettePos(palette, specProp){...}
+specProp = {
+	type: 	//tile, OL
+		//ant, beetle, grasshopper, ladybug, mosquito, pillbug, queen bee, spider, qm, em,
+	colorTile: //w, b
+	oriTile: //pointy, flat
+};
+
+aTiles.push({
+	bTiles: [{
+		figure: //ant, beetle, grasshopper, ladybug, mosquito, pillbug, queen bee, spider, qm, em
+		color: //w, b
+	}],
+	cX: ,
+	cY: ,
+	pX: ,
+	pY: 
+});
+aOLs.push({
+	cX: ,
+	cY: ,
+	pX: ,
+	pY: 
+});
+aHLs.push({
+	color: ,
+	alpha: ,
+	cX: ,
+	cY: ,
+	pX: ,
+	pY: 
+});
+aArrows.push({
+	color: ,
+	weight: ,
+	fcX: ,
+	fcY: ,
+	tcX: ,
+	tcY: ,
+	fcX: ,
+	fcY: ,
+	tcX: ,
+	tcY: 
+});
+aComments.push({
+	msg : ,
+	color: ,
+	size: ,
+	font: ,
+	cX: ,
+	cY: ,
+	pX: ,
+	pY: 
+});
