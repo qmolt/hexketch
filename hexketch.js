@@ -216,12 +216,14 @@ export default class hexketch{
 						if(tempProp.moveTileState){if(tempProp.moveTileIdx==i && aTiles[i].bTiles.length-1==j){continue;}}
 
 						let stackOffset = 0.05*hexSize*j;
+
 						//tile
 						pltt = palettePos(sketchProp.tilePalette, {
 							type:'tile', 
 							colorTile:aTiles[i].bTiles[j].color, 
 							oriTile:sketchProp.hexOrient
 						});
+						if(!pltt){continue;}
 						sx = pltt.x;
 						sy = pltt.y;
 						sw = srcS;
@@ -229,10 +231,11 @@ export default class hexketch{
 						p5.image(imgHexS, dx-stackOffset, dy-stackOffset, dw, dh, sx, sy, sw, sh);
 						
 						//figure
-						if(aTiles[i].bTiles[j].figure==='blank'){continue;}
 						pltt = palettePos(sketchProp.tilePalette, {
-							type:aTiles[i].bTiles[j].figure
+							type:aTiles[i].bTiles[j].figure,
+							colorTile:aTiles[i].bTiles[j].color
 						});
+						if(!pltt){continue;}
 						sx = pltt.x;
 						sy = pltt.y;
 						sw = srcS;
@@ -254,21 +257,26 @@ export default class hexketch{
 						colorTile:aTiles[idx].bTiles[stackIdx].color, 
 						oriTile:sketchProp.hexOrient
 					});
-					sx = pltt.x;
-					sy = pltt.y;
-					sw = srcS;
-					sh = srcS;
-					p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
-					//figure
-					if(aTiles[idx].bTiles[stackIdx].figure!=='blank'){
-						pltt = palettePos(sketchProp.tilePalette, {
-							type:aTiles[idx].bTiles[stackIdx].figure
-						});
+					if(pltt){
 						sx = pltt.x;
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
 						p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+					}
+					//figure
+					if(aTiles[idx].bTiles[stackIdx].figure!=='blank'){
+						pltt = palettePos(sketchProp.tilePalette, {
+							type:aTiles[idx].bTiles[stackIdx].figure,
+							colorTile:aTiles[idx].bTiles[stackIdx].color 
+						});
+						if(pltt){
+							sx = pltt.x;
+							sy = pltt.y;
+							sw = srcS;
+							sh = srcS;
+							p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+						}
 					}
 				}
 				//draw highlights
@@ -702,44 +710,51 @@ export default class hexketch{
 				let col, row;
 				let type = specProp.type;
 
+				//get row
+				row = parseInt(palette);
+				if(isNaN(row)){row = 0;}
+				if(row < 0 || row > 15){row = 0;}
+
 				//get column
-				if(type === 'ant'){col = 0;}
-				else if(type === 'beetle'){col = 1;}
-				else if(type === 'grasshopper'){col = 2;}
-				else if(type === 'ladybug'){col = 3;}
-				else if(type === 'mosquito'){col = 4;}
-				else if(type === 'pillbug'){col = 5;}
-				else if(type === 'queen'){col = 6;}
-				else if(type === 'spider'){col = 7;}
-				else if(type === 'qm'){col = 8;}
-				else if(type === 'em'){col = 9;}
-				else if(type === 'tile'){
-					let colorTile = specProp.colorTile;
-					let oriTile = specProp.oriTile;
-					if(oriTile === 'pointy'){
-						if(colorTile === 'w'){col = 10;}
-						else if(colorTile === 'b'){col = 11;}
-						else{return null;}
-					}
-					else if(oriTile === 'flat'){
-						if(colorTile === 'w'){col = 12;}
-						else if(colorTile === 'b'){col = 13;}
-						else{return null;}
-					}
-					else{return null;}
-				}
-				else if(type === 'OL'){
+				if(type === 'OL'){
 					let oriTile = specProp.oriTile;
 					if(oriTile === 'pointy'){col = 14;}
 					else if(oriTile === 'flat'){col = 15;}
 					else{return null;}
 				}
-				else{return null;}
-				
-				//get row
-				row = parseInt(palette);
-				if(isNaN(row)){row = 0;}
-				if(row < 0 || row > 15){row = 0;}
+				else if(type === 'tile'){
+					let colorTile = specProp.colorTile;
+					let oriTile = specProp.oriTile;
+					if(colorTile === 'b'){
+						if(oriTile === 'pointy'){col = 11;}
+						else if(oriTile === 'flat'){col = 13;}
+						else{return null;}
+					}
+					else if(colorTile === 'w'){
+						if(oriTile === 'pointy'){col = 10;}
+						else if(oriTile === 'flat'){col = 12;}
+						else{return null;}
+					}
+					else{return null;}
+				}
+				else{
+					//carbon
+					let colorTile = specProp.colorTile;
+					if(colorTile==='b' && row == 1){row = 2;}
+
+					//fig
+					if(type === 'ant'){col = 0;}
+					else if(type === 'beetle'){col = 1;}
+					else if(type === 'grasshopper'){col = 2;}
+					else if(type === 'ladybug'){col = 3;}
+					else if(type === 'mosquito'){col = 4;}
+					else if(type === 'pillbug'){col = 5;}
+					else if(type === 'queen'){col = 6;}
+					else if(type === 'spider'){col = 7;}
+					else if(type === 'qm'){col = 8;}
+					else if(type === 'em'){col = 9;}
+					else{return null;}
+				}
 
 				//source img
 				let x = col * imgSide;
