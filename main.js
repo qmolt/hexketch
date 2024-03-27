@@ -128,9 +128,9 @@ function moveLeft(){sketchProp.userOffsetX -= sketchProp.hexSize;}
 butMoveRight.addEventListener('click', moveRight);
 function moveRight(){sketchProp.userOffsetX += sketchProp.hexSize;}
 butMoveUp.addEventListener('click', moveUp);
-function moveUp(){sketchProp.userOffsetY += sketchProp.hexSize;}
+function moveUp(){sketchProp.userOffsetY -= sketchProp.hexSize;}
 butMoveDown.addEventListener('click', moveDown);
-function moveDown(){sketchProp.userOffsetY -= sketchProp.hexSize;}
+function moveDown(){sketchProp.userOffsetY += sketchProp.hexSize;}
 
 //grid
 selOrientation.addEventListener('change', oriGrid);
