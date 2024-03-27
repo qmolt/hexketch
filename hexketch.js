@@ -579,6 +579,8 @@ export default class hexketch{
 				//comment actions
 				else if(sketchProp.selElement === 'comment'){
 					if(sketchProp.selAction === 'add'){
+						//ignore if comment is empty
+						if(tempProp.commentMsg===''){return;}
 						//ignore if comment already at this coord
 						let hex = aComments.find(o => {return (o.cX === hmCX && o.cY === hmCY)});
 						if(hex){return;}
