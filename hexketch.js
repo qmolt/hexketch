@@ -116,7 +116,7 @@ export default class hexketch{
 					for(let i=0; i<aArrows.length;i++){
 						let newPosF = bhexCoord2Pos(bhexDraw, aArrows[i].fcX, aArrows[i].fcY);
 						let newPosT = bhexCoord2Pos(bhexDraw, aArrows[i].tcX, aArrows[i].tcY);
-						if(newPosF && newposT){
+						if(newPosF && newPosT){
 							aArrows[i].fpX = newPosF.x;
 							aArrows[i].fpY = newPosF.y;
 							aArrows[i].tpX = newPosT.x;
