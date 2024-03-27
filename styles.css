@@ -64,7 +64,7 @@ body {
 .labelColor {
 	display: grid;
 	grid-template-columns: 90px 120px;
-	grid-template-rows: 22px;
+	grid-template-rows: 35px;
 	padding: 1px 10px;
 }
 .labelSelect {
