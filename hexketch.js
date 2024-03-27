@@ -408,6 +408,9 @@ export default class hexketch{
 						else{
 							aTiles[hexIdx].bTiles.push({figure:tileFig, color:tileColor});
 						}
+						//sort
+						aTiles.sort((a, b) => a.cX - b.cX);
+						aTiles.sort((a, b) => a.cY - b.cY);
 					}
 					else if(sketchProp.selAction === 'edit'){
 						let hexIdx = aTiles.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
@@ -467,6 +470,9 @@ export default class hexketch{
 							tempProp.moveTileIdx = hexIdx;
 							tempProp.moveTileState = true;
 						}
+						//sort
+						aTiles.sort((a, b) => a.cX - b.cX);
+						aTiles.sort((a, b) => a.cY - b.cY);
 					}
 					else if(sketchProp.selAction === 'delete'){
 						let hexIdx = aTiles.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
