@@ -307,8 +307,7 @@ function tilePalette(){
 }
 selOLColor.addEventListener('change', oLColor);
 function oLColor(){
-	let palette = selTilePalette.value;
-	sketchProp.oLColor = palette;
+	sketchProp.oLColor = selOLColor.value;
 }
 
 //save

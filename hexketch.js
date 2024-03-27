@@ -193,7 +193,7 @@ export default class hexketch{
 
 				//draw outlines
 				for(let i=0; i<aOLs.length; i++){
-					pltt = palettePos(sketchProp.tilePalette, {type:'OL', oriTile:sketchProp.hexOrient});
+					pltt = palettePos(sketchProp.oLColor, {type:'OL', oriTile:sketchProp.hexOrient});
 					sx = pltt.x;
 					sy = pltt.y;
 					sw = srcS;
