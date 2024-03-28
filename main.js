@@ -86,7 +86,7 @@ let sketchInfo = {
 	paletteCBSafe: false
 };
 let tempProp = {
-	tileFig: 'ant',
+	tileFig: 'ladybug',
 	tileColor: 'w',
 	hLColor: '#e03375',
 	hLOpacity: 191,

@@ -34,6 +34,9 @@ export default class hexketch{
 			let aArrows = [];
 			let aComments = [];
 
+			const rampPeriod = 2501;
+			let phasor;
+
 			p5.preload = function(){
   				imgHexS = p5.loadImage('assets/img_hexketch.png');
 			}
@@ -63,6 +66,8 @@ export default class hexketch{
 			}
 			p5.draw = function(){
 				
+				phasor = (p5.millis()%rampPeriod)/(rampPeriod-1);
+
 				//check board changes
 				if(sketchProp.updateStatus){
 					
@@ -191,19 +196,40 @@ export default class hexketch{
 				let srcS = imgSide;
 				let dstR = sketchProp.hexSize;
 
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw outlines
 				for(let i=0; i<aOLs.length; i++){
 					pltt = palettePos(sketchProp.oLColor, {type:'OL', oriTile:sketchProp.hexOrient});
-					sx = pltt.x;
-					sy = pltt.y;
-					sw = srcS;
-					sh = srcS;
-					dx = offsetX + aOLs[i].pX - dstR;
-					dy = offsetY + aOLs[i].pY - dstR;
-					dw = 2*dstR;
-					dh = 2*dstR;
-					p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+					if(pltt){
+						sx = pltt.x;
+						sy = pltt.y;
+						sw = srcS;
+						sh = srcS;
+						dx = offsetX + aOLs[i].pX - dstR;
+						dy = offsetY + aOLs[i].pY - dstR;
+						dw = 2*dstR;
+						dh = 2*dstR;
+						p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+					}
 				}
+				//draw temp outline
+				if(sketchProp.selElement==='outline' && sketchProp.selAction==='add'){
+					pltt = palettePos(sketchProp.oLColor, {type:'OL', oriTile:sketchProp.hexOrient});
+					if(pltt){
+						dx = hmPX - dstR;
+						dy = hmPY - dstR;
+						dw = 2*dstR;
+						dh = 2*dstR;
+						sx = pltt.x;
+						sy = pltt.y;
+						sw = srcS;
+						sh = srcS;
+						p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+					}
+				} 
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw tiles
 				for(let i=0; i<aTiles.length; i++){
 					dx = offsetX + aTiles[i].pX - dstR;
@@ -279,17 +305,55 @@ export default class hexketch{
 						}
 					}
 				}
+				//draw temp tile
+				if(sketchProp.selElement==='tile' && sketchProp.selAction==='add'){
+					dx = hmPX - dstR;
+					dy = hmPY - dstR;
+					dw = 2*dstR;
+					dh = 2*dstR;
+					pltt=palettePos(sketchProp.tilePalette, {type:'tile', colorTile:tempProp.tileColor, oriTile:sketchProp.hexOrient});
+					if(pltt){
+						sx = pltt.x;
+						sy = pltt.y;
+						sw = srcS;
+						sh = srcS;
+						p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+					}
+					if(tempProp.tileFig!=='blank'){
+						pltt=palettePos(sketchProp.tilePalette, {type:tempProp.tileFig, colorTile:tempProp.tileColor});
+						if(pltt){
+							sx = pltt.x;
+							sy = pltt.y;
+							sw = srcS;
+							sh = srcS;
+							p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+						}
+					}
+				}
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw highlights
 				for(let i=0; i<aHLs.length; i++){
 					let hLColor = p5.color(aHLs[i].color);
 					hLColor.setAlpha(aHLs[i].alpha); 
-					
 					dx = offsetX + aHLs[i].pX;
 					dy = offsetY + aHLs[i].pY;
 					p5.noStroke();
 					p5.fill(hLColor);
 					p5.ellipse(dx, dy, hexSize, hexSize);
 				}
+				//draw temp outline
+				if(sketchProp.selElement==='highlight' && sketchProp.selAction==='add'){
+					let hLColor = p5.color(tempProp.hLColor);
+					hLColor.setAlpha(tempProp.hLOpacity); 
+					dx = hmPX;
+					dy = hmPY;
+					p5.noStroke();
+					p5.fill(hLColor);
+					p5.ellipse(dx, dy, hexSize, hexSize);
+				}
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw arrows
 				for(let i=0; i<aArrows.length; i++){
 					let arrowColor = p5.color(aArrows[i].color);
@@ -323,7 +387,8 @@ export default class hexketch{
 					p5.strokeWeight(arrowWeight);
 					p5.line(sx, sy, hmPX, hmPY);
 				}
-
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw text
 				for(let i=0; i<aComments.length; i++){
 					//ignore if moving
@@ -356,7 +421,21 @@ export default class hexketch{
 					p5.fill(textColor);
   					p5.text(textMsg, hmPX, hmPY);
 				}
+				//draw temp comment
+				if(sketchProp.selElement==='comment' && sketchProp.selAction==='add'){
+					let textFont = tempProp.commentFont; 
+					p5.textFont(textFont);
+					let textSize = tempProp.commentSize;
+  					p5.textSize(textSize);
+					let textColor = tempProp.commentColor;
+					let textMsg = tempProp.commentMsg;
+					p5.noStroke();
+					p5.fill(textColor);
+  					p5.text(textMsg, hmPX, hmPY);
+				}
 
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//save frame
 				if(sketchProp.saveFrame){
 					p5.saveCanvas('myHexketch', 'png');
