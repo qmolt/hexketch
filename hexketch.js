@@ -712,6 +712,23 @@ export default class hexketch{
 					}
 				}
 			}
+			p5.keyReleased = function(){ //gotta go fast!
+				let code = p5.keyCode;
+				if(code == 32){tempProp.tileColor = (tempProp.tileColor==='b')?'w':'b';}
+				else if(code == 65){tempProp.tileFig = 'ant';}//a
+				else if(code == 66){tempProp.tileFig = 'beetle';}//b
+				else if(code == 71){tempProp.tileFig = 'grasshopper';}//g
+				else if(code == 76){tempProp.tileFig = 'ladybug';}//l
+				else if(code == 77){tempProp.tileFig = 'mosquito';}//m
+				else if(code == 80){tempProp.tileFig = 'pillbug';}//p
+				else if(code == 81){tempProp.tileFig = 'queen';}//q
+				else if(code == 83){tempProp.tileFig = 'spider';}//s
+				else if(code == 219){tempProp.tileFig = 'qm';}//?
+				else if(code == 49){tempProp.tileFig = 'em';}//!
+				else if(code == 190){tempProp.tileFig = 'blank';}//.
+
+				return false;
+			}
 
 			//aux functions
 			function bhexPos2Center(bhexDrawing, posX, posY){

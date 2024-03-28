@@ -40,6 +40,27 @@ Save your composition as a PNG! you can also hide the background if you want a t
 
 ---
 
+# Key bindings
+
+When adding tiles you can choose different figures using your keyboard.
+
+```
+'a': ant
+'b': beetle
+'g': grasshopper
+'l': ladybug
+'m': mosquito
+'p': pillbug
+'q': queen
+'s': spider
+'?': ?
+'!': !
+'.': blank 
+' '(space): switch black/white tile
+```
+
+---
+
 # Notes
 
 - Iconography used in the tiles' figures are not from my own intellectual property, they are a reference to the boardgame Hive® from Gen42 with whom I have no affiliation whatsoever. This website was made for enthusiast Hive players as a tool to study the game. This website was not made for profit.
