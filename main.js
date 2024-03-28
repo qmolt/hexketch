@@ -68,7 +68,7 @@ let sketchProp = {
 	hexSize: 40,
 	hexOrient: 'pointy',
 	gridDots: [],
-	bgColor: "#000000",
+	bgColor: "#213444",
 	gridVsbl: 1,
 	saveFrame: false,
 	saveBg: true,
