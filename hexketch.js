@@ -151,7 +151,8 @@ export default class hexketch{
 				let posX = p5.mouseX - offsetX;
 				let posY = p5.mouseY - offsetY;
 				let hexMouse = bhexPos2Center(bhexDraw, posX, posY);
-				let hmPX, hmPY; 
+				let hmPX, hmPY;
+				let theta = 0;
 				if(hexMouse){
 					hmPX = hexMouse.x + offsetX;
 					hmPY = hexMouse.y + offsetY;
@@ -232,8 +233,8 @@ export default class hexketch{
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw tiles
 				for(let i=0; i<aTiles.length; i++){
-					dx = offsetX + aTiles[i].pX - dstR;
-					dy = offsetY + aTiles[i].pY - dstR;
+					dx = offsetX + aTiles[i].pX; //dx = offsetX + aTiles[i].pX - dstR; //without tanslate
+					dy = offsetY + aTiles[i].pY; //dy = offsetY + aTiles[i].pY - dstR;
 					dw = 2*dstR;
 					dh = 2*dstR;
 					//stack
@@ -254,27 +255,38 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						p5.image(imgHexS, dx-stackOffset, dy-stackOffset, dw, dh, sx, sy, sw, sh);
+						theta = pltt.theta;
+						p5.push();
+						p5.translate(dx, dy);
+						p5.rotate(theta);
+						p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
+						p5.pop();
 						
 						//figure
 						pltt = palettePos(sketchProp.tilePalette, {
 							type:aTiles[i].bTiles[j].figure,
-							colorTile:aTiles[i].bTiles[j].color
+							colorTile:aTiles[i].bTiles[j].color,
+							oriTile:sketchProp.hexOrient
 						});
 						if(!pltt){continue;}
 						sx = pltt.x;
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						p5.image(imgHexS, dx-stackOffset, dy-stackOffset, dw, dh, sx, sy, sw, sh);
+						theta = pltt.theta;
+						p5.push();
+						p5.translate(dx, dy);
+						p5.rotate(theta);
+						p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
+						p5.pop();
 					}
 				}
 				//draw moving tile
 				if(tempProp.moveTileState){
 					let idx = tempProp.moveTileIdx;
 					let stackIdx = aTiles[idx].bTiles.length - 1;
-					dx = hmPX - dstR;
-					dy = hmPY - dstR;
+					dx = hmPX;
+					dy = hmPY;
 					dw = 2*dstR;
 					dh = 2*dstR;
 					//tile
@@ -288,27 +300,38 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+						theta = pltt.theta;
+						p5.push();
+						p5.translate(dx, dy);
+						p5.rotate(theta);
+						p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						p5.pop();
 					}
 					//figure
 					if(aTiles[idx].bTiles[stackIdx].figure!=='blank'){
 						pltt = palettePos(sketchProp.tilePalette, {
 							type:aTiles[idx].bTiles[stackIdx].figure,
-							colorTile:aTiles[idx].bTiles[stackIdx].color 
+							colorTile:aTiles[idx].bTiles[stackIdx].color,
+							oriTile:sketchProp.hexOrient
 						});
 						if(pltt){
 							sx = pltt.x;
 							sy = pltt.y;
 							sw = srcS;
 							sh = srcS;
-							p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+							theta = pltt.theta;
+							p5.push();
+							p5.translate(dx, dy);
+							p5.rotate(theta);
+							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+							p5.pop();
 						}
 					}
 				}
 				//draw temp tile
 				if(sketchProp.selElement==='tile' && sketchProp.selAction==='add'){
-					dx = hmPX - dstR;
-					dy = hmPY - dstR;
+					dx = hmPX;
+					dy = hmPY;
 					dw = 2*dstR;
 					dh = 2*dstR;
 					pltt=palettePos(sketchProp.tilePalette, {type:'tile', colorTile:tempProp.tileColor, oriTile:sketchProp.hexOrient});
@@ -317,16 +340,26 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+						theta = pltt.theta;
+						p5.push();
+						p5.translate(dx, dy);
+						p5.rotate(theta);
+						p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						p5.pop();
 					}
 					if(tempProp.tileFig!=='blank'){
-						pltt=palettePos(sketchProp.tilePalette, {type:tempProp.tileFig, colorTile:tempProp.tileColor});
+						pltt=palettePos(sketchProp.tilePalette, {type:tempProp.tileFig, colorTile:tempProp.tileColor, oriTile:sketchProp.hexOrient});
 						if(pltt){
 							sx = pltt.x;
 							sy = pltt.y;
 							sw = srcS;
 							sh = srcS;
-							p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
+							theta = pltt.theta;
+							p5.push();
+							p5.translate(dx, dy);
+							p5.rotate(theta);
+							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+							p5.pop();
 						}
 					}
 				}
@@ -368,7 +401,7 @@ export default class hexketch{
 					dy = offsetY + aArrows[i].tpY;
 					p5.line(sx, sy, dx, dy);
 
-					let theta = p5.atan2(dy-sy, dx-sx);
+					theta = p5.atan2(dy-sy, dx-sx);
 					let triSide = hexSize * 0.25;
 					p5.push();
 					p5.translate(dx, dy);
@@ -813,6 +846,7 @@ export default class hexketch{
 			function palettePos(palette, specProp){
 				let col, row;
 				let type = specProp.type;
+				let angle = 0;
 
 				//get row
 				row = parseInt(palette);
@@ -829,21 +863,33 @@ export default class hexketch{
 				else if(type === 'tile'){
 					let colorTile = specProp.colorTile;
 					let oriTile = specProp.oriTile;
-					if(colorTile === 'b'){
-						if(oriTile === 'pointy'){col = 11;}
-						else if(oriTile === 'flat'){col = 13;}
+					
+					if(row==8 || row==9){ //non included flat
+						if(colorTile === 'b'){col = 11;}
+						else if(colorTile === 'w'){col = 10;}
+						else{return null;}
+						
+						if(oriTile === 'flat'){angle = p5.PI/6;}
+					}
+					else{ //flat included
+						if(colorTile === 'b'){
+							if(oriTile === 'pointy'){col = 11;}
+							else if(oriTile === 'flat'){col = 13;}
+							else{return null;}
+						}
+						else if(colorTile === 'w'){
+							if(oriTile === 'pointy'){col = 10;}
+							else if(oriTile === 'flat'){col = 12;}
+							else{return null;}
+						}
 						else{return null;}
 					}
-					else if(colorTile === 'w'){
-						if(oriTile === 'pointy'){col = 10;}
-						else if(oriTile === 'flat'){col = 12;}
-						else{return null;}
-					}
-					else{return null;}
 				}
 				else{
-					//carbon
 					let colorTile = specProp.colorTile;
+					let oriTile = specProp.oriTile;
+					
+					//carbon
 					if(colorTile==='b' && row == 1){row = 2;}
 
 					//fig
@@ -858,12 +904,15 @@ export default class hexketch{
 					else if(type === 'qm'){col = 8;}
 					else if(type === 'em'){col = 9;}
 					else{return null;}
+
+					//if flat not included
+					if(row==8 || row==9){if(oriTile === 'flat'){angle = p5.PI/6;}}
 				}
 
 				//source img
 				let x = col * imgSide;
 				let y = row * imgSide;
-				return {x:x, y:y};
+				return {x:x, y:y, theta:angle};
 			}
 
 		}, div);

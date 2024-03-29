@@ -14,7 +14,7 @@ Font used in the icon is [Zyzol](https://www.fontspace.com/zyzol-font-f67557).
 
 ## Function Section
 
-There are different __elements__ you can use to create your own image: _tiles_, _outlines_, _highlights_, _arrows_, and _comments_. You can place them in different places of the canvas with your mouse cursor after selecting an __action__: you can _add_, _move_, _edit_, and _delete_ figures, but keep in mind that there are many __elements__ that can share the same coordinates so to make a change you need to always select an __element__ AND an __action__ first.
+There are different __elements__ you can use to create your own image: _tiles_, _outlines_, _highlights_, _arrows_, and _comments_. You can place them in different positions of the canvas with your mouse cursor after selecting an __action__: you can _add_, _move_, _edit_, and _delete_ figures, but keep in mind that there are many __elements__ that can share the same coordinates so to make a change you need to always select an __element__ AND an __action__ first.
 
 Add a piece: after you select an __element__, some specific parameters will show for you to select or change. If you want to change these parameters later you can use the _edit_ __action__.
 
