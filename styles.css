@@ -19,9 +19,9 @@ body {
 	grid-template-rows: 22px;
 	padding: 0px 10px;
 }
-.just2Buttons{
+.just3Buttons{
 	display: grid;
-	grid-template-columns: repeat(2, 165px);
+	grid-template-columns: repeat(3, 110px);
 	grid-template-rows: 22px;
 	padding: 1px 10px;
 }
@@ -81,7 +81,7 @@ body {
 }
 .selectLabelInput {
 	display: grid;
-	grid-template-columns: 60px 45px 60px 165px;
+	grid-template-columns: 60px 50px 60px 160px;
 	grid-template-rows: 22px;
 	padding: 0px 10px;
 }

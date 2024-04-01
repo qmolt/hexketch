@@ -7,6 +7,7 @@ const selGame = document.getElementById('selGame');
 const textGame = document.getElementById('textGame');
 const butLoadGame = document.getElementById('butLoadGame');
 const butSaveGame = document.getElementById('butSaveGame');
+const butNewGame = document.getElementById('butNewGame');
 
 //board
 const butExpandCanvas = document.getElementById('butExpandCanvas');
@@ -91,7 +92,8 @@ let sketchInfo = {
 	selElement: 'none',	//tile, ol, hl, arrow, comment, none
 	selAction: 'none', //add, edit, move, delete, none
 	paletteCBSafe: false,
-	unsavedData: false
+	unsavedData: false,
+	overwriteRisk: false
 };
 let tempProp = {
 	tileFig: 'ladybug',
@@ -121,22 +123,57 @@ let mainGame = new HexGame('0', '');
 let myHexketch = new hexketch(mainGame, sketchProp, tempProp, 'myHexketchbook');
 
 //game state
+butNewGame.addEventListener('click', startNewGame);
+function startNewGame(){
+	mainGame.clearAll();
+	
+	sketchInfo.unsavedData = true;
+	slotGame();
+}
 selGame.addEventListener('change', slotGame);
 function slotGame(){
-	//save temp slot id number
+	let idxGame = gamesColl.findIndex(o => {return o.id==selGame.value;});
+	if(idxGame<0){
+		textGame.value=''; 
+		sketchInfo.overwriteRisk = false;
+		updateWarning();
+	}
+	else{
+		textGame.value = gamesColl[idxGame].name;
+		sketchInfo.overwriteRisk = true;
+		updateWarning();
+	}
 }
 textGame.addEventListener('input', nameGame);
 function nameGame(){
-	//save temp name
-	//unsaved info
+	sketchInfo.unsavedData = true;
+	updateWarning();
 }
 butLoadGame.addEventListener('click', loadGame);
 function loadGame(){
-	//load temp saved slot id
+	let idxGame = gamesColl.findIndex(o => {return o.id==selGame.value;});
+	mainGame.copyAll(gamesColl[idxGame]);
+
+	sketchInfo.unsavedData = false;
+	sketchInfo.overwriteRisk = true;
+	updateWarning();
 }
 butSaveGame.addEventListener('click', saveGame);
 function saveGame(){
-	//save
+	let gameId = selGame.value;
+	let gameName = textGame.value;
+	if(gameName===''){gameName='unnamed';}
+	//if replacing
+	let idxGame = gamesColl.findIndex(o => {return o.id==selGame.value;});
+	if(idxGame>=0){gamesColl.splice(idxGame, 1);}
+	//create and add
+	let copyGame = new HexGame('-1', '');
+	copyGame.copyAll(mainGame);
+	copyGame.setGameId(gameId, gameName);
+	gamesColl.push(copyGame);
+
+	sketchInfo.unsavedData = false;
+	updateWarning();
 }
 
 //canvas size
@@ -367,7 +404,9 @@ function updateInfo(){
 function updateWarning(){
 	let aWarn = [];
 
-	if(sketchInfo.paletteCBSafe){aWarn.push('this palette is color-blind safe');}
+	if(sketchInfo.overwriteRisk){aWarn.push('slot used: load to view, save to overwrite.')}
+	if(sketchInfo.unsavedData){aWarn.push('unsaved data.');}
+	if(sketchInfo.paletteCBSafe){aWarn.push('this palette is color-blind safe.');}
 
 	warningInfo.innerHTML = aWarn.join(" // ");
 }

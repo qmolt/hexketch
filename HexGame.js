@@ -13,9 +13,48 @@ export default class HexGame{
 		this.idxMovingStack = -1;
 	}
 	
+	setGameId(id, name){
+		this.id = id;
+		this.name = name;
+	}
+	clearAll(){
+		this.id = '0';
+		this.name = '';
+		let lenArray = this.aStacks.length;
+		this.aStacks.splice(0, lenArray);
+		lenArray = this.aOLs.length;
+		this.aOLs.splice(0, lenArray);
+		lenArray = this.aHLs.length;
+		this.aHLs.splice(0, lenArray);
+		lenArray = this.aArrows.length;
+		this.aArrows.splice(0, lenArray);
+		lenArray = this.aComments.length;
+		this.aComments.splice(0, lenArray);
+		this.idxMovingComment = -1;
+		this.idxMovingStack = -1;
+	}
+	copyAll(aGame){
+		//empty all arrays
+		this.clearAll();
+		//copy all
+		this.id = aGame.id;
+		this.name = aGame.name;
+		let lenArray = aGame.aStacks.length;
+		for(let i=0; i<lenArray; i++){this.aStacks.push(aGame.aStacks[i]);}
+		lenArray = aGame.aOLs.length;
+		for(let i=0; i<lenArray; i++){this.aStacks.push(aGame.aOLs[i]);}
+		lenArray = aGame.aHLs.length;
+		for(let i=0; i<lenArray; i++){this.aStacks.push(aGame.aHLs[i]);}
+		lenArray = aGame.aArrows.length;
+		for(let i=0; i<lenArray; i++){this.aStacks.push(aGame.aArrows[i]);}
+		lenArray = aGame.aComments.length;
+		for(let i=0; i<lenArray; i++){this.aStacks.push(aGame.aComments[i]);}
+		this.idxMovingComment = -1;
+		this.idxMovingStack = -1;
+	}
 	addTile(cX, cY, pX, pY, fig, col){
 		//find stack
-		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		//(make stack if needed) add tile to stack
 		if(idxStack<0){
 			let newStack = new Stack(cX, cY, pX, pY);
@@ -27,7 +66,7 @@ export default class HexGame{
 		}
 	}
 	editTile(cX, cY, fig, col){
-		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxStack<0){return;}
 		
 		let stackSize = this.aStacks[idxStack].tiles.length;
@@ -36,7 +75,7 @@ export default class HexGame{
 		this.aStacks[idxStack].tiles[stackSize-1].color = col;
 	}
 	deleteTile(cX, cY){
-		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxStack<0){return;}
 						
 		let stackSize = this.aStacks[idxStack].tiles.length;
@@ -58,7 +97,7 @@ export default class HexGame{
 		}
 	}
 	moveStartTile(cX, cY){
-		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxStack<0){return;}
 		if(this.aStacks[idxStack].tiles.length==0){return;}//should never happen but still
 		this.idxMovingStack = idxStack;
@@ -67,7 +106,7 @@ export default class HexGame{
 		if(this.idxMovingStack>=0){
 			let oldIdx = this.idxMovingStack;
 			let oldStackSize = this.aStacks[oldIdx].tiles.length;
-			let newIdx = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY === cY)});
+			let newIdx = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY === cY);});
 			//ignore if same coord
 			if(oldIdx == newIdx){this.idxMovingStack=-1; return;}
 			//no stack at new coord
@@ -105,33 +144,33 @@ export default class HexGame{
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	addOL(cX, cY, pX, pY){
 		//ignore if OL already at this coord
-		let foundOL = this.aOLs.find(o => {return (o.cX == cX && o.cY == cY)});
+		let foundOL = this.aOLs.find(o => {return (o.cX == cX && o.cY == cY);});
 		if(foundOL){return;}
 
 		//add to array
 		this.aOLs.push(new OL(cX, cY, pX, pY));	
 	}
 	deleteOL(cX, cY){
-		let idxOL = this.aOLs.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxOL = this.aOLs.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxOL<0){return;}
 		this.aOLs.splice(idxOL, 1);
 	}
 	//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	addHL(cX, cY, pX, pY, col, a){
 		//ignore if HL already at this coord
-		let foundHL = this.aHLs.find(o => {return (o.cX == cX && o.cY == cY)});
+		let foundHL = this.aHLs.find(o => {return (o.cX == cX && o.cY == cY);});
 		if(foundHL){return;}
 		//add to array
 		this.aHLs.push(new HL(cX, cY, pX, pY, col, a));
 	}
 	editHL(cX, cY, col, a){
-		let idxHL = this.aHLs.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxHL = this.aHLs.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxHL<0){return;}
 		this.aHLs[idxHL].color = col;
 		this.aHLs[idxHL].alpha = a;
 	}
 	deleteHL(cX, cY){
-		let idxHL = this.aHLs.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxHL = this.aHLs.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxHL<0){return;}
 		this.aHLs.splice(idxHL, 1);	
 	}
@@ -140,13 +179,13 @@ export default class HexGame{
 		this.aArrows.push(new Arrow(fcX, fcY, fpX, fpY, tcX, tcY, tpX, tpY, col, w));
 	}
 	editArrow(cX, cY, col, w){
-		let idxArrowT = this.aArrows.findIndex(o => {return (o.tcX == cX && o.tcY == cY)});
+		let idxArrowT = this.aArrows.findIndex(o => {return (o.tcX == cX && o.tcY == cY);});
 		if(idxArrowT<0){return;}
 		this.aArrows[idxArrowT].color = col;
 		this.aArrows[idxArrowT].weight = w;
 	}
 	deleteArrow(cX, cY){
-		let idxArrowT = this.aArrows.findIndex(o => {return (o.tcX == cX && o.tcY == cY)});
+		let idxArrowT = this.aArrows.findIndex(o => {return (o.tcX == cX && o.tcY == cY);});
 		if(idxArrowT<0){return;}
 		this.aArrows.splice(idxArrowT, 1);
 	}
@@ -155,13 +194,13 @@ export default class HexGame{
 		//ignore if comment is empty
 		if(msg===''){return;}
 		//ignore if comment already at this coord
-		let foundComment = this.aComments.find(o => {return (o.cX == cX && o.cY == cY)});
+		let foundComment = this.aComments.find(o => {return (o.cX == cX && o.cY == cY);});
 		if(foundComment){return;}
 		//add to array
 		this.aComments.push(new Comment(cX, cY, pX, pY, msg, col, size, font));
 	}
 	editComment(cX, cY, msg, col, size, font){
-		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxComment<0){return;}
 		this.aComments[idxComment].msg = msg;
 		this.aComments[idxComment].color = col;
@@ -169,7 +208,7 @@ export default class HexGame{
 		this.aComments[idxComment].font = font;
 	}
 	deleteComment(cX, cY){
-		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxComment<0){return;}
 		this.aComments.splice(idxComment, 1);
 	}
@@ -182,12 +221,12 @@ export default class HexGame{
 		}
 	}
 	moveStartComment(cX, cY){
-		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxComment<0){return;}
 		this.idxMovingComment = idxComment;
 	}
 	moveEndComment(cX, cY, pX, pY){
-		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY)});
+		let idxComment = this.aComments.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		if(idxComment>=0){return;}
 		this.aComments[this.idxMovingComment].cX = cX;
 		this.aComments[this.idxMovingComment].cY = cY;

@@ -36,8 +36,15 @@ In this section you can adjust the background color and change general color pre
 
 Save your composition as a PNG! you can also hide the background if you want a transparent image.
 
-<img src="assets/04.png" width="500">
+<img src="assets/04.png" width="400">
 
+## Game state Section
+
+- new: Start a new game from scratch. 
+- save: Select a slot in which your data will be saved. Name it. Press 'Save'.
+- load: Select a slot. Press 'Load'. All unsaved changes will be lost.
+
+<img src="assets/05.png" width="400">
 ---
 
 # Key bindings
