@@ -1,6 +1,8 @@
+import HexGame from "./HexGame.js"
+
 export default class hexketch{
 
-	constructor(sketchProp, tempProp, div){
+	constructor(game, sketchProp, tempProp, div){
 
 		new p5(function(p5){ 
 
@@ -27,12 +29,6 @@ export default class hexketch{
 			let gridLines = [];
 
 			let imgHexS;
-
-			let aTiles = [];
-			let aOLs = [];
-			let aHLs = [];
-			let aArrows = [];
-			let aComments = [];
 
 			const rampPeriod = 2501;
 			let phasor;
@@ -94,38 +90,38 @@ export default class hexketch{
 					gridLinesCoords(bhexDraw, gridLines, gridSize);
 
 					//update positions for OL
-					for(let i=0; i<aOLs.length;i++){
-						let newPos = bhexCoord2Pos(bhexDraw, aOLs[i].cX, aOLs[i].cY);
+					for(let i=0; i<game.aOLs.length;i++){
+						let newPos = bhexCoord2Pos(bhexDraw, game.aOLs[i].cX, game.aOLs[i].cY);
 						if(newPos){
-							aOLs[i].pX = newPos.x;
-							aOLs[i].pY = newPos.y;
+							game.aOLs[i].pX = newPos.x;
+							game.aOLs[i].pY = newPos.y;
 						}
 					}
 					//update positions for tiles
-					for(let i=0; i<aTiles.length; i++){
-						let newPos = bhexCoord2Pos(bhexDraw, aTiles[i].cX, aTiles[i].cY);
+					for(let i=0; i<game.aStacks.length; i++){
+						let newPos = bhexCoord2Pos(bhexDraw, aStacks[i].cX, game.aStacks[i].cY);
 						if(newPos){
-							aTiles[i].pX = newPos.x;
-							aTiles[i].pY = newPos.y;
+							game.aStacks[i].pX = newPos.x;
+							game.aStacks[i].pY = newPos.y;
 						}
 					}
 					//update positions for HL
-					for(let i=0; i<aHLs.length;i++){
-						let newPos = bhexCoord2Pos(bhexDraw, aHLs[i].cX, aHLs[i].cY);
+					for(let i=0; i<game.aHLs.length;i++){
+						let newPos = bhexCoord2Pos(bhexDraw, game.aHLs[i].cX, game.aHLs[i].cY);
 						if(newPos){
-							aHLs[i].pX = newPos.x;
-							aHLs[i].pY = newPos.y;
+							game.aHLs[i].pX = newPos.x;
+							game.aHLs[i].pY = newPos.y;
 						}
 					}
 					//update positions for arrows
-					for(let i=0; i<aArrows.length;i++){
-						let newPosF = bhexCoord2Pos(bhexDraw, aArrows[i].fcX, aArrows[i].fcY);
-						let newPosT = bhexCoord2Pos(bhexDraw, aArrows[i].tcX, aArrows[i].tcY);
+					for(let i=0; i<game.aArrows.length;i++){
+						let newPosF = bhexCoord2Pos(bhexDraw, game.aArrows[i].fcX, game.aArrows[i].fcY);
+						let newPosT = bhexCoord2Pos(bhexDraw, game.aArrows[i].tcX, game.aArrows[i].tcY);
 						if(newPosF && newPosT){
-							aArrows[i].fpX = newPosF.x;
-							aArrows[i].fpY = newPosF.y;
-							aArrows[i].tpX = newPosT.x;
-							aArrows[i].tpY = newPosT.y;
+							game.aArrows[i].fpX = newPosF.x;
+							game.aArrows[i].fpY = newPosF.y;
+							game.aArrows[i].tpX = newPosT.x;
+							game.aArrows[i].tpY = newPosT.y;
 						}
 					}
 					//update positions for comments
@@ -158,8 +154,8 @@ export default class hexketch{
 					hmPY = hexMouse.y + offsetY;
 				}
 
-				//draw bg
 				p5.clear();
+				//draw bg
 				let bgColor = p5.color(sketchProp.bgColor);
 				bgCanvas.background(bgColor);
 				if(sketchProp.saveFrame && !sketchProp.saveBg){bgCanvas.clear();}
@@ -200,15 +196,15 @@ export default class hexketch{
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw outlines
-				for(let i=0; i<aOLs.length; i++){
+				for(let i=0; i<game.aOLs.length; i++){
 					pltt = palettePos(sketchProp.oLColor, {type:'OL', oriTile:sketchProp.hexOrient});
 					if(pltt){
 						sx = pltt.x;
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						dx = offsetX + aOLs[i].pX - dstR;
-						dy = offsetY + aOLs[i].pY - dstR;
+						dx = offsetX + game.aOLs[i].pX - dstR;
+						dy = offsetY + game.aOLs[i].pY - dstR;
 						dw = 2*dstR;
 						dh = 2*dstR;
 						p5.image(imgHexS, dx, dy, dw, dh, sx, sy, sw, sh);
@@ -232,22 +228,25 @@ export default class hexketch{
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw tiles
-				for(let i=0; i<aTiles.length; i++){
-					dx = offsetX + aTiles[i].pX; //dx = offsetX + aTiles[i].pX - dstR; //without tanslate
-					dy = offsetY + aTiles[i].pY; //dy = offsetY + aTiles[i].pY - dstR;
+				for(let i=0; i<game.aStacks.length; i++){
+					dx = offsetX + game.aStacks[i].pX; 
+					dy = offsetY + game.aStacks[i].pY; 
 					dw = 2*dstR;
 					dh = 2*dstR;
 					//stack
-					for(let j=0; j<aTiles[i].bTiles.length; j++){
-						//skip if moving tile
-						if(tempProp.moveTileState){if(tempProp.moveTileIdx==i && aTiles[i].bTiles.length-1==j){continue;}}
-
+					for(let j=0; j<game.aStacks[i].tiles.length; j++){
+						//if moving tile
+						if(game.idxMovingStack==i){
+							if(game.aStacks[i].tiles.length-1==j){
+								continue;
+							}
+						}
+						//offset
 						let stackOffset = 0.05*hexSize*j;
-
 						//tile
 						pltt = palettePos(sketchProp.tilePalette, {
 							type:'tile', 
-							colorTile:aTiles[i].bTiles[j].color, 
+							colorTile:game.aStacks[i].tiles[j].color, 
 							oriTile:sketchProp.hexOrient
 						});
 						if(!pltt){continue;}
@@ -261,11 +260,10 @@ export default class hexketch{
 						p5.rotate(theta);
 						p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
 						p5.pop();
-						
 						//figure
 						pltt = palettePos(sketchProp.tilePalette, {
-							type:aTiles[i].bTiles[j].figure,
-							colorTile:aTiles[i].bTiles[j].color,
+							type:game.aStacks[i].tiles[j].figure,
+							colorTile:game.aStacks[i].tiles[j].color,
 							oriTile:sketchProp.hexOrient
 						});
 						if(!pltt){continue;}
@@ -282,17 +280,15 @@ export default class hexketch{
 					}
 				}
 				//draw moving tile
-				if(tempProp.moveTileState){
-					let idx = tempProp.moveTileIdx;
-					let stackIdx = aTiles[idx].bTiles.length - 1;
+				if(game.idxMovingStack>=0){
 					dx = hmPX;
 					dy = hmPY;
-					dw = 2*dstR;
-					dh = 2*dstR;
+					let idxStack = game.idxMovingStack;
+					let idxTile = game.aStacks[idxStack].tiles.length-1;
 					//tile
 					pltt = palettePos(sketchProp.tilePalette, {
 						type:'tile', 
-						colorTile:aTiles[idx].bTiles[stackIdx].color, 
+						colorTile:game.aStacks[idxStack].tiles[idxTile].color, 
 						oriTile:sketchProp.hexOrient
 					});
 					if(pltt){
@@ -308,24 +304,22 @@ export default class hexketch{
 						p5.pop();
 					}
 					//figure
-					if(aTiles[idx].bTiles[stackIdx].figure!=='blank'){
-						pltt = palettePos(sketchProp.tilePalette, {
-							type:aTiles[idx].bTiles[stackIdx].figure,
-							colorTile:aTiles[idx].bTiles[stackIdx].color,
-							oriTile:sketchProp.hexOrient
-						});
-						if(pltt){
-							sx = pltt.x;
-							sy = pltt.y;
-							sw = srcS;
-							sh = srcS;
-							theta = pltt.theta;
-							p5.push();
-							p5.translate(dx, dy);
-							p5.rotate(theta);
-							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
-							p5.pop();
-						}
+					pltt = palettePos(sketchProp.tilePalette, {
+						type:game.aStacks[idxStack].tiles[idxTile].figure,
+						colorTile:game.aStacks[idxStack].tiles[idxTile].color,
+						oriTile:sketchProp.hexOrient
+					});
+					if(pltt){
+						sx = pltt.x;
+						sy = pltt.y;
+						sw = srcS;
+						sh = srcS;
+						theta = pltt.theta;
+						p5.push();
+						p5.translate(dx, dy);
+						p5.rotate(theta);
+						p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						p5.pop();
 					}
 				}
 				//draw temp tile
@@ -366,11 +360,11 @@ export default class hexketch{
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw highlights
-				for(let i=0; i<aHLs.length; i++){
-					let hLColor = p5.color(aHLs[i].color);
-					hLColor.setAlpha(aHLs[i].alpha); 
-					dx = offsetX + aHLs[i].pX;
-					dy = offsetY + aHLs[i].pY;
+				for(let i=0; i<game.aHLs.length; i++){
+					let hLColor = p5.color(game.aHLs[i].color);
+					hLColor.setAlpha(game.aHLs[i].alpha); 
+					dx = offsetX + game.aHLs[i].pX;
+					dy = offsetY + game.aHLs[i].pY;
 					p5.noStroke();
 					p5.fill(hLColor);
 					p5.ellipse(dx, dy, hexSize, hexSize);
@@ -388,17 +382,17 @@ export default class hexketch{
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw arrows
-				for(let i=0; i<aArrows.length; i++){
-					let arrowColor = p5.color(aArrows[i].color);
+				for(let i=0; i<game.aArrows.length; i++){
+					let arrowColor = p5.color(game.aArrows[i].color);
 					p5.stroke(arrowColor);
 					p5.fill(arrowColor);
-					let arrowWeight = aArrows[i].weight; 
+					let arrowWeight = game.aArrows[i].weight; 
 					p5.strokeWeight(arrowWeight);
 
-					sx = offsetX + aArrows[i].fpX;
-					sy = offsetY + aArrows[i].fpY;
-					dx = offsetX + aArrows[i].tpX;
-					dy = offsetY + aArrows[i].tpY;
+					sx = offsetX + game.aArrows[i].fpX;
+					sy = offsetY + game.aArrows[i].fpY;
+					dx = offsetX + game.aArrows[i].tpX;
+					dy = offsetY + game.aArrows[i].tpY;
 					p5.line(sx, sy, dx, dy);
 
 					theta = p5.atan2(dy-sy, dx-sx);
@@ -423,36 +417,30 @@ export default class hexketch{
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 				//draw text
-				for(let i=0; i<aComments.length; i++){
+				for(let i=0; i<game.aComments.length; i++){
 					//ignore if moving
 					if(tempProp.moveCommentState==true){if(tempProp.moveCommentIdx==i){continue;}}
 					//draw
-					let textFont = aComments[i].font; 
+					let textFont = game.aComments[i].font; 
 					p5.textFont(textFont);
-					let textSize = aComments[i].size;
+					let textSize = game.aComments[i].size;
   					p5.textSize(textSize);
-					let textColor = aComments[i].color;
-					let textMsg = aComments[i].msg;
-					dx = offsetX + aComments[i].pX;
-					dy = offsetY + aComments[i].pY;
+					let textColor = game.aComments[i].color;
+					let textMsg = game.aComments[i].msg;
+					//if moving use mouse coords
+					if(game.idxMovingComment == i){
+						dx = hmPX;
+						dy = hmPY;
+					}
+					else{
+						dx = offsetX + game.aComments[i].pX;
+						dy = offsetY + game.aComments[i].pY;
+					}
 					p5.noStroke();
 					p5.fill(0);
   					p5.text(textMsg, dx, dy);
 					p5.fill(textColor);
   					p5.text(textMsg, dx+1, dy+1);
-				}
-				//draw moving comment
-				if(tempProp.moveCommentState==true){
-					let idx = tempProp.moveCommentIdx;
-					let textFont = aComments[idx].font; 
-					p5.textFont(textFont);
-					let textSize = aComments[idx].size;
-  					p5.textSize(textSize);
-					let textColor = aComments[idx].color;
-					let textMsg = aComments[idx].msg;
-					p5.noStroke();
-					p5.fill(textColor);
-  					p5.text(textMsg, hmPX, hmPY);
 				}
 				//draw temp comment
 				if(sketchProp.selElement==='comment' && sketchProp.selAction==='add'){
@@ -483,6 +471,28 @@ export default class hexketch{
 				}
 			}
 			p5.mouseReleased = function(){
+				triggerAction();
+			}
+			p5.keyReleased = function(){ //gotta go fast!
+				let code = p5.keyCode;
+				if(code == 32){tempProp.tileColor = (tempProp.tileColor==='b')?'w':'b';} //space
+				else if(code == 65){tempProp.tileFig = 'ant';} 		//a
+				else if(code == 66){tempProp.tileFig = 'beetle';}	//b
+				else if(code == 71){tempProp.tileFig = 'grasshopper';}//g
+				else if(code == 76){tempProp.tileFig = 'ladybug';}	//l
+				else if(code == 77){tempProp.tileFig = 'mosquito';}	//m
+				else if(code == 80){tempProp.tileFig = 'pillbug';}	//p
+				else if(code == 81){tempProp.tileFig = 'queen';}	//q
+				else if(code == 83){tempProp.tileFig = 'spider';}	//s
+				else if(code == 219){tempProp.tileFig = 'qm';}		//?
+				else if(code == 49){tempProp.tileFig = 'em';}		//!
+				else if(code == 190){tempProp.tileFig = 'blank';}	//.
+
+				//else if(code == ?){triggerAction();} //enter
+				return false;
+			}
+
+			function triggerAction(){
 				//ignore if out of canvas
 				if(p5.mouseX>canvasSize || p5.mouseY>canvasSize || p5.mouseX<0 || p5.mouseY<0){return;}
 				
@@ -506,118 +516,32 @@ export default class hexketch{
 					let tileFig = tempProp.tileFig;
 
 					if(sketchProp.selAction === 'add'){
-						//find stack
-						let hexIdx = aTiles.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){
-							aTiles.push({
-								bTiles: [{figure:tileFig, color:tileColor}],
-								cX: hmCX,
-								cY: hmCY,
-								pX: hmPX,
-								pY: hmPY
-							});
-						}
-						else{
-							aTiles[hexIdx].bTiles.push({figure:tileFig, color:tileColor});
-						}
+						//add
+						game.addTile(hmCX, hmCY, hmPX, hmPY, tileFig, tileColor);
 						//sort
-						aTiles.sort((a, b) => a.cX - b.cX);
-						aTiles.sort((a, b) => a.cY - b.cY);
+						game.sortTilesCX();
+						game.sortTilesCY();
 					}
 					else if(sketchProp.selAction === 'edit'){
-						let hexIdx = aTiles.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){return;}
-						
-						let stackSize = aTiles[hexIdx].bTiles.length;
-						if(stackSize>0){
-							aTiles[hexIdx].bTiles[stackSize-1].figure = tempProp.tileFig;
-							aTiles[hexIdx].bTiles[stackSize-1].color = tempProp.tileColor;
-						}
+						game.editTile(hmCX, hmCY, tileFig, tileColor);
 					}
 					else if(sketchProp.selAction === 'move'){
-						if(tempProp.moveTileState){
-							let oldIdx = tempProp.moveTileIdx;
-							let oldStackSize = aTiles[oldIdx].bTiles.length;
-							let newIdx = aTiles.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-							
-							//ignore if same coord
-							if(oldIdx == newIdx){tempProp.moveTileState=false; return}
-							
-							//no stack at new coord
-							if(newIdx<0){
-								//not only tile in old stack
-								if(oldStackSize>1){
-									aTiles.push({
-										bTiles: [aTiles[oldIdx].bTiles[oldStackSize-1]],
-										cX: hmCX,
-										cY: hmCY,
-										pX: hmPX,
-										pY: hmPY
-									});
-									aTiles[oldIdx].bTiles.splice(oldStackSize-1, 1);
-								}//only tile in old stack
-								else{
-									aTiles[oldIdx].cX = hmCX;
-									aTiles[oldIdx].cY = hmCY;
-									aTiles[oldIdx].pX = hmPX;
-									aTiles[oldIdx].pY = hmPY;
-								}
-							}//already a stack at new coord
-							else{
-								aTiles[newIdx].bTiles.push(aTiles[oldIdx].bTiles[oldStackSize-1]);
-
-								//not only tile in old stack
-								if(oldStackSize>1){
-									aTiles[oldIdx].bTiles.splice(oldStackSize-1, 1);
-								}//only tile in old stack
-								else{
-									aTiles.splice(oldIdx, 1);
-								}
-							}
-							tempProp.moveTileState = false;
-						}
-						else{
-							let hexIdx = aTiles.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-							if(hexIdx<0){return;}
-							tempProp.moveTileIdx = hexIdx;
-							tempProp.moveTileState = true;
-						}
+						game.moveTile(hmCX, hmCY, hmPX, hmPY);
 						//sort
-						aTiles.sort((a, b) => a.cX - b.cX);
-						aTiles.sort((a, b) => a.cY - b.cY);
+						game.sortTilesCX();
+						game.sortTilesCY();
 					}
 					else if(sketchProp.selAction === 'delete'){
-						let hexIdx = aTiles.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){return;}
-						
-						let stackSize = aTiles[hexIdx].bTiles.length;
-						if(stackSize>1){
-							aTiles[hexIdx].bTiles.splice(stackSize-1, 1);
-						}
-						else{
-							aTiles.splice(hexIdx, 1);
-						}
+						game.deleteTile(hmCX, hmCY);
 					}
 				}
 				//outline actions
 				else if(sketchProp.selElement === 'outline'){
 					if(sketchProp.selAction === 'add'){
-						//ignore if OL already at this coord
-						let hex = aOLs.find(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hex){return;}
-
-						//add to array
-						aOLs.push({
-							cX: hmCX,
-							cY: hmCY,
-							pX: hmPX,
-							pY: hmPY
-						});	
+						game.addOL(hmCX, hmCY, hmPX, hmPY);
 					}
 					else if(sketchProp.selAction === 'delete'){
-						let hexIdx = aOLs.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){return;}
-						aOLs.splice(hexIdx, 1);
+						game.deleteOL(hmCX, hmCY);
 					}
 				}
 				//highlight actions
@@ -626,30 +550,13 @@ export default class hexketch{
 					let hLAlpha = tempProp.hLOpacity;
 
 					if(sketchProp.selAction === 'add'){
-						//ignore if HL already at this coord
-						let hex = aHLs.find(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hex){return;}
-
-						//add to array
-						aHLs.push({
-							color: hLColor,
-							alpha: hLAlpha,
-							cX: hmCX,
-							cY: hmCY,
-							pX: hmPX,
-							pY: hmPY
-						});
+						game.addHL(hmCX, hmCY, hmPX, hmPY, hLColor, hLAlpha);
 					}
 					else if(sketchProp.selAction === 'edit'){
-						let hexIdx = aHLs.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){return;}
-						aHLs[hexIdx].color = tempProp.hLColor;
-						aHLs[hexIdx].alpha = tempProp.hLOpacity;
+						game.editHL(hmCX, hmCY, tempProp.hLColor, tempProp.hLOpacity);
 					}
 					else if(sketchProp.selAction === 'delete'){
-						let hexIdx = aHLs.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){return;}
-						aHLs.splice(hexIdx, 1);	
+						game.deleteHL(hmCX, hmCY);
 					}
 				}
 				//arrow actions
@@ -660,18 +567,9 @@ export default class hexketch{
 								tempProp.arrowState=false; 
 								return;
 							}
-							aArrows.push({
-								color: tempProp.arrowColor,
-								weight: tempProp.arrowWeight,
-								fcX: tempProp.arrowfcX,
-								fcY: tempProp.arrowfcY,
-								fpX: tempProp.arrowfpX,
-								fpY: tempProp.arrowfpY,
-								tcX: hmCX,
-								tcY: hmCY,
-								tpX: hmPX,
-								tpY: hmPY,
-							});
+							game.addArrow(tempProp.arrowfcX, tempProp.arrowfcY, tempProp.arrowfpX, tempProp.arrowfpY, 
+								hmCX, hmCY, hmPX, hmPY, 
+								tempProp.arrowColor, tempProp.arrowWeight);
 							tempProp.arrowState=false; 
 						}
 						else{
@@ -683,84 +581,29 @@ export default class hexketch{
 						}
 					}
 					else if(sketchProp.selAction === 'edit'){
-						let hexIdx = aArrows.findIndex(o => {return (o.tcX === hmCX && o.tcY === hmCY)});
-						if(hexIdx<0){return;}
-						aArrows[hexIdx].color = tempProp.arrowColor;
-						aArrows[hexIdx].weight = tempProp.arrowWeight;
+						game.editArrow(hmCX, hmCY, tempProp.arrowColor, tempProp.arrowWeight);
 					}
 					else if(sketchProp.selAction === 'delete'){
-						let hexIdx = aArrows.findIndex(o => {return (o.tcX === hmCX && o.tcY === hmCY)});
-						if(hexIdx<0){return;}
-						aArrows.splice(hexIdx, 1);
+						game.deleteArrow(hmCX, hmCY);
 					}
 				}
 				//comment actions
 				else if(sketchProp.selElement === 'comment'){
 					if(sketchProp.selAction === 'add'){
-						//ignore if comment is empty
-						if(tempProp.commentMsg===''){return;}
-						//ignore if comment already at this coord
-						let hex = aComments.find(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hex){return;}
-						//add to array
-						aComments.push({
-							msg: tempProp.commentMsg,
-							color: tempProp.commentColor,
-							size: tempProp.commentSize,
-							font: tempProp.commentFont,
-							cX: hmCX,
-							cY: hmCY,
-							pX: hmPX,
-							pY: hmPY
-						});
+						game.addComment(hmCX, hmCY, hmPX, hmPY, 
+							tempProp.commentMsg, tempProp.commentColor, tempProp.commentSize, tempProp.commentFont);
 					}
 					else if(sketchProp.selAction === 'edit'){
-						let hexIdx = aComments.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){return;}
-						aComments[hexIdx].msg = tempProp.commentMsg;
-						aComments[hexIdx].color = tempProp.commentColor;
-						aComments[hexIdx].size = tempProp.commentSize;
-						aComments[hexIdx].font = tempProp.commentFont;
+						game.editComment(hmCX, hmCY, 
+							tempProp.commentMsg, tempProp.commentColor, tempProp.commentSize, tempProp.commentFont);
 					}
 					else if(sketchProp.selAction === 'move'){
-						if(tempProp.moveCommentState){
-							let idx = tempProp.moveCommentIdx;
-							aComments[idx].cX = hmCX;
-							aComments[idx].cY = hmCY;
-							aComments[idx].pX = hmPX;
-							aComments[idx].pY = hmPY;
-							tempProp.moveCommentState = false;
-						}
-						else{
-							let hexIdx = aComments.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-							if(hexIdx<0){return;}
-							tempProp.moveCommentIdx = hexIdx;
-							tempProp.moveCommentState = true;
-						}
+						game.moveComment(hmCX, hmCY, hmPX, hmPY);
 					}
 					else if(sketchProp.selAction === 'delete'){
-						let hexIdx = aComments.findIndex(o => {return (o.cX === hmCX && o.cY === hmCY)});
-						if(hexIdx<0){return;}
-						aComments.splice(hexIdx, 1);
+						game.deleteComment(hmCX, hmCY);
 					}
 				}
-			}
-			p5.keyReleased = function(){ //gotta go fast!
-				let code = p5.keyCode;
-				if(code == 32){tempProp.tileColor = (tempProp.tileColor==='b')?'w':'b';}
-				else if(code == 65){tempProp.tileFig = 'ant';}//a
-				else if(code == 66){tempProp.tileFig = 'beetle';}//b
-				else if(code == 71){tempProp.tileFig = 'grasshopper';}//g
-				else if(code == 76){tempProp.tileFig = 'ladybug';}//l
-				else if(code == 77){tempProp.tileFig = 'mosquito';}//m
-				else if(code == 80){tempProp.tileFig = 'pillbug';}//p
-				else if(code == 81){tempProp.tileFig = 'queen';}//q
-				else if(code == 83){tempProp.tileFig = 'spider';}//s
-				else if(code == 219){tempProp.tileFig = 'qm';}//?
-				else if(code == 49){tempProp.tileFig = 'em';}//!
-				else if(code == 190){tempProp.tileFig = 'blank';}//.
-
-				return false;
 			}
 
 			//aux functions

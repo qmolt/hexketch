@@ -21,7 +21,38 @@
 				<h1>hexketch</h1>
 
 				<hr>
+				<div class="gameSettings">
+					<h2>game state</h2>
+					<div class="selectLabelInput">
+						<select id="selGame">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+							<option value="11">11</option>
+							<option value="12">12</option>
+							<option value="13">13</option>
+							<option value="14">14</option>
+							<option value="15">15</option>
+							<option value="16">16</option>
+						</select>
+						<div></div>
+						<label for="textGame">name:</label>
+						<input type="text" id="textGame" autocomplete="off" placeholder="<empty>"></input>
+					</div>
+					<div class="just2Buttons">
+						<input type="button" id="butLoadGame" value="load"></input>
+						<input type="button" id="butSaveGame" value="save"></input>
+					</div>
+				</div>
 
+				<hr>
 				<h2>board</h2>
 				<div class="boardSettings">
 					<div class="label2Buttons">
@@ -199,12 +230,12 @@
 							<option value="5">muted</option>
 							<option value="6">light</option>
 							<option value="7">text</option>
-							<option value="8">3Dcube</option>
-							<option value="9">3Dicos</option>
+							<option value="8">3D cube</option>
+							<option value="9">3D icosahedron</option>
 							<option value="10">marble</option>
-							<!--option value="11">????</option-->
-							<!--option value="12">????</option-->
-							<!--option value="13">????</option-->
+							<option value="11">wood</option>
+							<!--option value="12">?</option-->
+							<!--option value="13">?</option-->
 							<option value="14">pixel64</option>
 							<option value="15">pixel32</option>
 						</select>		
@@ -239,8 +270,8 @@
 						<label for="saveBg">background</label>
 						<input type="checkbox" id="saveBg" checked></input>
 					</div>
-					<div class="just2Buttons">
-						<input type="button" id="takePhoto" value="save"></input>
+					<div class="justButton">
+						<input type="button" id="takePhoto" value="save .PNG"></input>
 					</div>
 				</div>
 			</div>

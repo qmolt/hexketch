@@ -21,9 +21,9 @@ body {
 }
 .just2Buttons{
 	display: grid;
-	grid-template-columns: 210px;
+	grid-template-columns: repeat(2, 165px);
 	grid-template-rows: 22px;
-	padding: 1px 5px;
+	padding: 1px 10px;
 }
 .labelButton{
 	display: grid;
@@ -78,6 +78,12 @@ body {
 	grid-template-columns: 90px 240px;
 	grid-template-rows: 22px;
 	padding: 1px 10px;
+}
+.selectLabelInput {
+	display: grid;
+	grid-template-columns: 60px 45px 60px 165px;
+	grid-template-rows: 22px;
+	padding: 0px 10px;
 }
 
 .infoAndCanvas {

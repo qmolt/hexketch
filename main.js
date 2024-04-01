@@ -1,6 +1,13 @@
 import hexketch from "./hexketch.js"
+import HexGame from "./HexGame.js"
 
 //html elements
+//game state
+const selGame = document.getElementById('selGame');
+const textGame = document.getElementById('textGame');
+const butLoadGame = document.getElementById('butLoadGame');
+const butSaveGame = document.getElementById('butSaveGame');
+
 //board
 const butExpandCanvas = document.getElementById('butExpandCanvas');
 const butReduceCanvas = document.getElementById('butReduceCanvas');
@@ -83,7 +90,8 @@ let sketchProp = {
 let sketchInfo = {
 	selElement: 'none',	//tile, ol, hl, arrow, comment, none
 	selAction: 'none', //add, edit, move, delete, none
-	paletteCBSafe: false
+	paletteCBSafe: false,
+	unsavedData: false
 };
 let tempProp = {
 	tileFig: 'ladybug',
@@ -108,7 +116,28 @@ let tempProp = {
 };
 
 //sketch
-let myHexketch = new hexketch(sketchProp, tempProp, 'myHexketchbook');
+let gamesColl = [];
+let mainGame = new HexGame('0', '');
+let myHexketch = new hexketch(mainGame, sketchProp, tempProp, 'myHexketchbook');
+
+//game state
+selGame.addEventListener('change', slotGame);
+function slotGame(){
+	//save temp slot id number
+}
+textGame.addEventListener('input', nameGame);
+function nameGame(){
+	//save temp name
+	//unsaved info
+}
+butLoadGame.addEventListener('click', loadGame);
+function loadGame(){
+	//load temp saved slot id
+}
+butSaveGame.addEventListener('click', saveGame);
+function saveGame(){
+	//save
+}
 
 //canvas size
 butExpandCanvas.addEventListener('click', expandCanvas);
