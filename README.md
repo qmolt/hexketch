@@ -45,6 +45,7 @@ Save your composition as a PNG! you can also hide the background if you want a t
 - load: Select a slot. Press 'Load'. All unsaved changes will be lost.
 
 <img src="assets/05.png" width="400">
+
 ---
 
 # Key bindings
