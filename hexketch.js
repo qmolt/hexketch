@@ -99,7 +99,7 @@ export default class hexketch{
 					}
 					//update positions for tiles
 					for(let i=0; i<game.aStacks.length; i++){
-						let newPos = bhexCoord2Pos(bhexDraw, aStacks[i].cX, game.aStacks[i].cY);
+						let newPos = bhexCoord2Pos(bhexDraw, game.aStacks[i].cX, game.aStacks[i].cY);
 						if(newPos){
 							game.aStacks[i].pX = newPos.x;
 							game.aStacks[i].pY = newPos.y;
@@ -125,11 +125,11 @@ export default class hexketch{
 						}
 					}
 					//update positions for comments
-					for(let i=0; i<aComments.length;i++){
-						let newPos = bhexCoord2Pos(bhexDraw, aComments[i].cX, aComments[i].cY);
+					for(let i=0; i<game.aComments.length;i++){
+						let newPos = bhexCoord2Pos(bhexDraw, game.aComments[i].cX, game.aComments[i].cY);
 						if(newPos){
-							aComments[i].pX = newPos.x;
-							aComments[i].pY = newPos.y;
+							game.aComments[i].pX = newPos.x;
+							game.aComments[i].pY = newPos.y;
 						}
 					}
 
