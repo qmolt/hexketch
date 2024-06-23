@@ -28,6 +28,8 @@ export default class hexketch{
 			let gridDots = [];
 			let gridLines = [];
 
+			let aHexFlat = [];
+
 			let imgHexS;
 
 			const rampPeriod = 2501;
@@ -56,6 +58,9 @@ export default class hexketch{
 
 				//lines coord
 				gridLinesCoords(bhexDraw, gridLines, gridSize);
+
+				//make flat hex
+				makeRoundHex(aHexFlat, hexSize);
 
 				//debug pause
 				//p5.noLoop();
@@ -88,6 +93,9 @@ export default class hexketch{
 					
 					//update lines
 					gridLinesCoords(bhexDraw, gridLines, gridSize);
+
+					//update flat hex vertices
+					makeRoundHex(aHexFlat, hexSize);
 
 					//update positions for OL
 					for(let i=0; i<game.aOLs.length;i++){
@@ -254,11 +262,26 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						theta = pltt.theta;
+						if(sketchProp.tileStyle === '1'){theta = (hexOrient==='pointy')?0:p5.PI/6;}
+						else{theta = pltt.theta;}
 						p5.push();
 						p5.translate(dx, dy);
 						p5.rotate(theta);
-						p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
+						if(sketchProp.tileStyle === '1'){
+							if(game.aStacks[i].tiles[j].color === 'b'){p5.fill(0);}
+							else{p5.fill(255);}
+							p5.strokeWeight(2);
+							p5.stroke(125)
+							p5.beginShape();
+							for(let k=0; k<aHexFlat.length; k++){
+								p5.vertex(aHexFlat[k].x, aHexFlat[k].y);
+							}
+							p5.vertex(aHexFlat[0].x, aHexFlat[0].y);
+							p5.endShape();
+						}
+						else{
+							p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
+						}
 						p5.pop();
 						//figure
 						pltt = palettePos(sketchProp.tilePalette, {
@@ -296,11 +319,26 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						theta = pltt.theta;
+						if(sketchProp.tileStyle === '1'){theta = (hexOrient==='pointy')?0:p5.PI/6;}
+						else{theta = pltt.theta;}
 						p5.push();
 						p5.translate(dx, dy);
 						p5.rotate(theta);
-						p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						if(sketchProp.tileStyle === '1'){
+							if(game.aStacks[idxStack].tiles[idxTile].color === 'b'){p5.fill(0);}
+							else{p5.fill(255);}
+							p5.strokeWeight(2);
+							p5.stroke(125)
+							p5.beginShape();
+							for(let k=0; k<aHexFlat.length; k++){
+								p5.vertex(aHexFlat[k].x, aHexFlat[k].y);
+							}
+							p5.vertex(aHexFlat[0].x, aHexFlat[0].y);
+							p5.endShape();
+						}
+						else{
+							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						}
 						p5.pop();
 					}
 					//figure
@@ -334,11 +372,26 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						theta = pltt.theta;
+						if(sketchProp.tileStyle === '1'){theta = (hexOrient==='pointy')?0:p5.PI/6;}
+						else{theta = pltt.theta;}
 						p5.push();
 						p5.translate(dx, dy);
 						p5.rotate(theta);
-						p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						if(sketchProp.tileStyle === '1'){
+							if(tempProp.tileColor === 'b'){p5.fill(0);}
+							else{p5.fill(255);}
+							p5.strokeWeight(2);
+							p5.stroke(125)
+							p5.beginShape();
+							for(let k=0; k<aHexFlat.length; k++){
+								p5.vertex(aHexFlat[k].x, aHexFlat[k].y);
+							}
+							p5.vertex(aHexFlat[0].x, aHexFlat[0].y);
+							p5.endShape();
+						}
+						else{
+							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						}
 						p5.pop();
 					}
 					if(tempProp.tileFig!=='blank'){
@@ -602,6 +655,26 @@ export default class hexketch{
 					}
 					else if(sketchProp.selAction === 'delete'){
 						game.deleteComment(hmCX, hmCY);
+					}
+				}
+			}
+
+			function makeRoundHex(aHexVert, edgeSize){
+				const rp = 0.15 * edgeSize;
+				aHexVert.splice(0, aHexVert.length);
+
+				for(let i=0; i<6; i++){
+					let magnt = edgeSize - (2.0 * rp/Math.sqrt(3));
+					let theta = i*p5.PI/3;
+
+					let x0 = magnt * Math.sin(theta);
+					let y0 = magnt * Math.cos(theta);
+
+					for(let j=0; j<5; j++){
+						let beta = -p5.PI/6 + p5.PI/3*j/5
+						let x1 = x0 + rp * Math.sin(theta + beta);
+						let y1 = y0 + rp * Math.cos(theta + beta);
+						aHexVert.push({'x':x1, 'y':y1});   
 					}
 				}
 			}

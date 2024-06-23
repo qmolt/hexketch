@@ -57,6 +57,7 @@ const selSize = document.getElementById('selSize');
 //colors
 const colorBG = document.getElementById('colorBG');
 const selTilePalette = document.getElementById('selTilePalette');
+const selTileStyle = document.getElementById('selTileStyle');
 const selOLColor = document.getElementById('selOLColor');
 
 //save
@@ -85,6 +86,7 @@ let sketchProp = {
 	selElement: 'none',
 	selAction: 'none',
 	tilePalette: '0',
+	tileStyle: '0',
 	oLColor: '0',
 	updateStatus: false
 };
@@ -370,6 +372,10 @@ function tilePalette(){
 	}
 	sketchProp.tilePalette = palette;
 	updateWarning();
+}
+selTileStyle.addEventListener('change', tileStyle);
+function tileStyle(){
+	sketchProp.tileStyle = selTileStyle.value;
 }
 selOLColor.addEventListener('change', oLColor);
 function oLColor(){

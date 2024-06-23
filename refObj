@@ -12,6 +12,7 @@ sketchProp = {
 	selElement: 'none',
 	selAction: 'none',
 	tilePalette: '0',
+	tileStyle: '0',
 	oLColor: '0'
 };
 
