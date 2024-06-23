@@ -255,17 +255,17 @@ export default class hexketch{
 						pltt = palettePos(sketchProp.tilePalette, {
 							type:'tile', 
 							colorTile:game.aStacks[i].tiles[j].color, 
-							oriTile:sketchProp.hexOrient
+							oriTile:sketchProp.hexOrient,
+							tileStyle:sketchProp.tileStyle
 						});
 						if(!pltt){continue;}
 						sx = pltt.x;
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						if(sketchProp.tileStyle === '1'){theta = (hexOrient==='pointy')?0:p5.PI/6;}
-						else{theta = pltt.theta;}
+						theta = pltt.theta;
 						p5.push();
-						p5.translate(dx, dy);
+						p5.translate(dx-stackOffset, dy-stackOffset);
 						p5.rotate(theta);
 						if(sketchProp.tileStyle === '1'){
 							if(game.aStacks[i].tiles[j].color === 'b'){p5.fill(0,0,20);}
@@ -274,33 +274,33 @@ export default class hexketch{
 							p5.stroke(125)
 							p5.beginShape();
 							for(let k=0; k<aHexFlat.length; k++){
-								p5.vertex(aHexFlat[k].x-stackOffset, aHexFlat[k].y-stackOffset);
+								p5.vertex(aHexFlat[k].x, aHexFlat[k].y);
 							}
-							p5.vertex(aHexFlat[0].x-stackOffset, aHexFlat[0].y-stackOffset);
+							p5.vertex(aHexFlat[0].x, aHexFlat[0].y);
 							p5.endShape();
 						}
 						else{
-							p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
+							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
 						}
 						//draw mark
 						switch(game.aStacks[i].tiles[j].mark){
 						case 1:
 							p5.fill(0,0,125);
 							p5.noStroke();
-							p5.ellipse(0.65*hexSize-stackOffset, -stackOffset, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, -stackOffset, hexSize*0.15);
 							break;
 						case 2:
 							p5.fill(0,0,125);
 							p5.noStroke();
-							p5.ellipse(0.65*hexSize-stackOffset, -0.16*hexSize-stackOffset, hexSize*0.15);
-							p5.ellipse(0.65*hexSize-stackOffset, 0.16*hexSize-stackOffset, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, -0.16*hexSize, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0.16*hexSize, hexSize*0.15);
 							break;
 						case 3:
 							p5.fill(0,0,125);
 							p5.noStroke();
-							p5.ellipse(0.65*hexSize-stackOffset, -0.25*hexSize-stackOffset, hexSize*0.15);
-							p5.ellipse(0.65*hexSize-stackOffset, 0-stackOffset, hexSize*0.15);
-							p5.ellipse(0.65*hexSize-stackOffset, 0.25*hexSize-stackOffset, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, -0.25*hexSize, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0.25*hexSize, hexSize*0.15);
 							break;
 						default:
 							break;
@@ -320,9 +320,9 @@ export default class hexketch{
 						sh = srcS;
 						theta = pltt.theta;
 						p5.push();
-						p5.translate(dx, dy);
+						p5.translate(dx-stackOffset, dy-stackOffset);
 						p5.rotate(theta);
-						p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
+						p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
 						p5.pop();
 					}
 				}
@@ -343,8 +343,7 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						if(sketchProp.tileStyle === '1'){theta = (hexOrient==='pointy')?0:p5.PI/6;}
-						else{theta = pltt.theta;}
+						theta = pltt.theta;
 						p5.push();
 						p5.translate(dx, dy);
 						p5.rotate(theta);
@@ -419,8 +418,7 @@ export default class hexketch{
 						sy = pltt.y;
 						sw = srcS;
 						sh = srcS;
-						if(sketchProp.tileStyle === '1'){theta = (hexOrient==='pointy')?0:p5.PI/6;}
-						else{theta = pltt.theta;}
+						theta = pltt.theta;
 						p5.push();
 						p5.translate(dx, dy);
 						p5.rotate(theta);
@@ -872,6 +870,9 @@ export default class hexketch{
 						}
 						else{return null;}
 					}
+
+					//flat style
+					if(oriTile === 'flat' && specProp.tileStyle === '1'){angle = p5.PI/6;}
 				}
 				else{
 					let colorTile = specProp.colorTile;
