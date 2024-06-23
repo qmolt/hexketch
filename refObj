@@ -1,3 +1,8 @@
+const myColors = 
+			[
+				{'id': 'flatWhite', 'h':60 , 's':14, 'b':96},
+				{'id': 'flatBlack', 'h':0 , 's':0, 'b':8}
+			];
 sketchProp = {
 	canvasSize: 600,
 	hexSize: 50,
@@ -24,6 +29,7 @@ sketchInfo = {
 tempProp = {
 	tileFig: //blank, ant, beetle, grasshopper, ladybug, mosquito, pillbug, queen bee, spider, qm, em
 	tileColor: //w, b
+	tileMark: //0, 1, 2, 3
 	hLColor: '#000000'...
 	hLOpacity: '100'...
 	arrowColor: '#000000'...
@@ -45,6 +51,7 @@ aTiles.push({
 	bTiles: [{
 		figure: //ant, beetle, grasshopper, ladybug, mosquito, pillbug, queen bee, spider, qm, em
 		color: //w, b
+		mark: //0, 1, 2, 3
 	}],
 	cX: ,
 	cY: ,

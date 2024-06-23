@@ -43,7 +43,7 @@ export default class hexketch{
 				p5.frameRate(10);
 				bgCanvas = p5.createGraphics(canvasSize, canvasSize);
 				p5.createCanvas(canvasSize, canvasSize);
-				p5.colorMode(p5.HSB, 256);
+				p5.colorMode(p5.HSB, 255);
 				p5.ellipseMode(p5.CENTER);
 
 				//grid
@@ -268,20 +268,44 @@ export default class hexketch{
 						p5.translate(dx, dy);
 						p5.rotate(theta);
 						if(sketchProp.tileStyle === '1'){
-							if(game.aStacks[i].tiles[j].color === 'b'){p5.fill(0);}
-							else{p5.fill(255);}
+							if(game.aStacks[i].tiles[j].color === 'b'){p5.fill(0,0,20);}
+							else{p5.fill(0,0,235);}
 							p5.strokeWeight(2);
 							p5.stroke(125)
 							p5.beginShape();
 							for(let k=0; k<aHexFlat.length; k++){
-								p5.vertex(aHexFlat[k].x, aHexFlat[k].y);
+								p5.vertex(aHexFlat[k].x-stackOffset, aHexFlat[k].y-stackOffset);
 							}
-							p5.vertex(aHexFlat[0].x, aHexFlat[0].y);
+							p5.vertex(aHexFlat[0].x-stackOffset, aHexFlat[0].y-stackOffset);
 							p5.endShape();
 						}
 						else{
 							p5.image(imgHexS, -dstR-stackOffset, -dstR-stackOffset, dw, dh, sx, sy, sw, sh);
 						}
+						//draw mark
+						switch(game.aStacks[i].tiles[j].mark){
+						case 1:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize-stackOffset, -stackOffset, hexSize*0.15);
+							break;
+						case 2:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize-stackOffset, -0.16*hexSize-stackOffset, hexSize*0.15);
+							p5.ellipse(0.65*hexSize-stackOffset, 0.16*hexSize-stackOffset, hexSize*0.15);
+							break;
+						case 3:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize-stackOffset, -0.25*hexSize-stackOffset, hexSize*0.15);
+							p5.ellipse(0.65*hexSize-stackOffset, 0-stackOffset, hexSize*0.15);
+							p5.ellipse(0.65*hexSize-stackOffset, 0.25*hexSize-stackOffset, hexSize*0.15);
+							break;
+						default:
+							break;
+						}
+						
 						p5.pop();
 						//figure
 						pltt = palettePos(sketchProp.tilePalette, {
@@ -325,8 +349,8 @@ export default class hexketch{
 						p5.translate(dx, dy);
 						p5.rotate(theta);
 						if(sketchProp.tileStyle === '1'){
-							if(game.aStacks[idxStack].tiles[idxTile].color === 'b'){p5.fill(0);}
-							else{p5.fill(255);}
+							if(game.aStacks[idxStack].tiles[idxTile].color === 'b'){p5.fill(0,0,20);}
+							else{p5.fill(0,0,235);}
 							p5.strokeWeight(2);
 							p5.stroke(125)
 							p5.beginShape();
@@ -338,6 +362,29 @@ export default class hexketch{
 						}
 						else{
 							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
+						}
+						//draw mark
+						switch(game.aStacks[idxStack].tiles[idxTile].mark){
+						case 1:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize, 0, hexSize*0.15);
+							break;
+						case 2:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize, -0.16*hexSize, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0.16*hexSize, hexSize*0.15);
+							break;
+						case 3:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize, -0.25*hexSize, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0.25*hexSize, hexSize*0.15);
+							break;
+						default:
+							break;
 						}
 						p5.pop();
 					}
@@ -378,8 +425,8 @@ export default class hexketch{
 						p5.translate(dx, dy);
 						p5.rotate(theta);
 						if(sketchProp.tileStyle === '1'){
-							if(tempProp.tileColor === 'b'){p5.fill(0);}
-							else{p5.fill(255);}
+							if(tempProp.tileColor === 'b'){p5.fill(0,0,20);}
+							else{p5.fill(0,0,235);}
 							p5.strokeWeight(2);
 							p5.stroke(125)
 							p5.beginShape();
@@ -392,6 +439,30 @@ export default class hexketch{
 						else{
 							p5.image(imgHexS, -dstR, -dstR, dw, dh, sx, sy, sw, sh);
 						}
+						//draw mark
+						switch(tempProp.tileMark){
+						case 1:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize, 0, hexSize*0.15);
+							break;
+						case 2:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize, -0.16*hexSize, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0.16*hexSize, hexSize*0.15);
+							break;
+						case 3:
+							p5.fill(0,0,125);
+							p5.noStroke();
+							p5.ellipse(0.65*hexSize, -0.25*hexSize, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0, hexSize*0.15);
+							p5.ellipse(0.65*hexSize, 0.25*hexSize, hexSize*0.15);
+							break;
+						default:
+							break;
+						}
+
 						p5.pop();
 					}
 					if(tempProp.tileFig!=='blank'){
@@ -567,16 +638,17 @@ export default class hexketch{
 				if(sketchProp.selElement === 'tile'){
 					let tileColor = tempProp.tileColor;
 					let tileFig = tempProp.tileFig;
+					let tileMark = tempProp.tileMark;
 
 					if(sketchProp.selAction === 'add'){
 						//add
-						game.addTile(hmCX, hmCY, hmPX, hmPY, tileFig, tileColor);
+						game.addTile(hmCX, hmCY, hmPX, hmPY, tileFig, tileColor, tileMark);
 						//sort
 						game.sortTilesCX();
 						game.sortTilesCY();
 					}
 					else if(sketchProp.selAction === 'edit'){
-						game.editTile(hmCX, hmCY, tileFig, tileColor);
+						game.editTile(hmCX, hmCY, tileFig, tileColor, tileMark);
 					}
 					else if(sketchProp.selAction === 'move'){
 						game.moveTile(hmCX, hmCY, hmPX, hmPY);

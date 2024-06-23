@@ -52,17 +52,17 @@ export default class HexGame{
 		this.idxMovingComment = -1;
 		this.idxMovingStack = -1;
 	}
-	addTile(cX, cY, pX, pY, fig, col){
+	addTile(cX, cY, pX, pY, fig, col, mrk){
 		//find stack
 		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY);});
 		//(make stack if needed) add tile to stack
 		if(idxStack<0){
 			let newStack = new Stack(cX, cY, pX, pY);
-			newStack.tiles.push(new Tile(fig, col));
+			newStack.tiles.push(new Tile(fig, col, mrk));
 			this.aStacks.push(newStack);
 		}
 		else{
-			this.aStacks[idxStack].tiles.push(new Tile(fig, col));
+			this.aStacks[idxStack].tiles.push(new Tile(fig, col, mrk));
 		}
 	}
 	editTile(cX, cY, fig, col){
@@ -73,6 +73,7 @@ export default class HexGame{
 		if(stackSize<1){return;}
 		this.aStacks[idxStack].tiles[stackSize-1].figure = fig;
 		this.aStacks[idxStack].tiles[stackSize-1].color = col;
+		this.aStacks[idxStack].tiles[stackSize-1].mark = mrk;
 	}
 	deleteTile(cX, cY){
 		let idxStack = this.aStacks.findIndex(o => {return (o.cX == cX && o.cY == cY);});
@@ -237,9 +238,10 @@ export default class HexGame{
 }
 
 class Tile{
-	constructor(figure, color){
+	constructor(figure, color, mark){
 		this.figure = figure;
 		this.color = color;
+		this.mark = mark;
 	}
 }
 class Stack{

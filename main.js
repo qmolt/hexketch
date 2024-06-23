@@ -36,6 +36,7 @@ const butDoReset = document.getElementById('butDoReset');
 //tile
 const butTileFig = document.querySelectorAll('.tileFig');
 const butTileColor = document.querySelectorAll('.tileColor');
+const butTileMark = document.querySelectorAll('.tileMark');
 
 //ol
 //( ಠ ͜ʖಠ)
@@ -100,6 +101,7 @@ let sketchInfo = {
 let tempProp = {
 	tileFig: 'ladybug',
 	tileColor: 'w',
+	tileMark: '0',
 	hLColor: '#e03375',
 	hLOpacity: 191,
 	arrowColor: '#e0d233',
@@ -334,6 +336,14 @@ butTileColor.forEach(but => {
 	but.addEventListener('click', () => {
 		if(but.innerHTML === 'black'){tempProp.tileColor = 'b';}
 		else{tempProp.tileColor = 'w';}
+	});
+});
+butTileMark.forEach(but => {
+	but.addEventListener('click', () => {
+		if(but.innerHTML === '1'){tempProp.tileMark = 1;}
+		else if(but.innerHTML === '2'){tempProp.tileMark = 2;}
+		else if(but.innerHTML === '3'){tempProp.tileMark = 3;}
+		else{tempProp.tileMark = 0;}
 	});
 });
 
